@@ -15,30 +15,60 @@ function battle (player, enemy)
     p_attack = player : getAttack()
     e_attack = enemy : getAttack()
 
-    -- Hitpoints
-    p_Hitpoints = player : getHitpoints()
-    e_Hitpoints = enemy : getHitpoints()
-
     -- defence
     p_defence = player : getDefence()
     e_defence = enemy : getDefence()
 
-	if(p_speed > e_speed) then
-		enemy : setHitpoints(e_Hitpoints - damageCheck(p_attack, e_defence))
-		if(enemy : isAlive()) then
-			player : setHitpoints(p_Hitpoints - damageCheck(e_attack, p_defence))
-		else
-			enemy : defeated()
-		end
-	else
-		player : setHitpoints(p_Hitpoints - damageCheck(e_attack, p_defence))
-		if(player : isAlive()) then
-			enemy : setHitpoints(e_Hitpoints - damageCheck(p_attack, e_defence))
-		end
-	end
+    -- names
+    p_name = player : getName()
+    e_name = enemy : getName()
 
-	player : displayStats()
-	enemy : displayStats()
+    print("===== Battle Starting! =====")
+
+    if(p_speed > e_speed) then
+        -- player attacks
+        print(p_name, " attacks for ", damageCheck(p_attack, e_defence), " damage!")
+        calc = enemy : getHitpoints() - damageCheck(p_attack, e_defence)
+        enemy : setHitpoints(calc)
+
+        if(enemy : isAlive()) then
+            print(e_name, " has ", enemy : getHitpoints(), " hitpoints remaining!")
+            print(e_name, " attacks for ", damageCheck(e_attack, p_defence), " damage!")
+            calc = player : getHitpoints() - damageCheck(e_attack, p_defence)
+            player : setHitpoints(calc)
+
+            if(player : isAlive()) then
+                print(p_name, " has ", player:getHitpoints(), " hitpoints remaining!")
+            else
+                player : defeated()
+            end
+        else
+            print(e_name, " is defeated!")
+            enemy : defeated()
+        end
+    else
+        -- enemy attacks
+        print(e_name, " attacks for ", damageCheck(e_attack, p_defence), " damage!")
+
+        if(player : isAlive()) then
+            print(p_name, " has ", enemy:getHitpoints(), " hitpoints remaining!")
+            print(p_name, " attacks for ", damageCheck(p_attack, e_defence), " damage!")
+
+            calc = enemy:getHitpoints() - damageCheck(p_attack, e_defence)
+            enemy : setHitpoints(calc)
+
+            if(enemy : isAlive()) then
+                print(e_name, " has ", enemy:getHitpoints(), " hitpoints remaining!")
+            else
+                enemy : defeated()
+            end
+        else
+            player : defeated()
+        end
+    end -- end combat
+
+    print("===== Battle Complete =====")
+
 end
 
 -- Evaluates how much damage was dealt for this round of combat

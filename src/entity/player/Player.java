@@ -59,7 +59,7 @@ public class Player {
      * Prints out the players inventory to the console
      */
     public void displayInventory(){
-        System.out.print("Player's Inventory:");
+        System.out.println("Player's Inventory:");
         for(String[] item : inventory){
             for(String entry : item){
                 System.out.print("\t" + entry);
@@ -67,6 +67,7 @@ public class Player {
             System.out.println("\t");
         }
     }
+
     /**
      * Accessors and Mutators
      */

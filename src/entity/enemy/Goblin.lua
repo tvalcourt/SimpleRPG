@@ -6,7 +6,7 @@
 -- To change this template use File | Settings | File Templates.
 --
 function create (enemy)
-    enemy : setHitpoints (10)
+    enemy : setHitpoints (20)
     enemy : setAttack (4)
     enemy : setDefence (3)
     enemy : setSpeed (5)
