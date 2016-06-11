@@ -53,7 +53,7 @@ public class LoadScript {
      * @param obj_1 A Java object.
      * @param obj_2 A Java object.
      */
-    void runScriptFunction(String functionName, Object obj_1, Object obj_2) {
+    public void runScriptFunction(String functionName, Object obj_1, Object obj_2) {
         this.luaState.getGlobal(functionName);
         this.luaState.pushJavaObject(obj_1);
         this.luaState.pushJavaObject(obj_2);

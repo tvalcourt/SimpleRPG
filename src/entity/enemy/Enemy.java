@@ -1,8 +1,10 @@
 package entity.enemy;
 
+import main.SimpleRPG;
 import util.LoadScript;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Generic enemy class that calls the script for the given enemy type
@@ -42,7 +44,7 @@ public class Enemy {
             for (String entry : item){
                 // Entries in format: A = XXXX -> XXXX
                 int itemIndex = item.indexOf(entry);
-                item.set(itemIndex, entry.substring(4, entry.length() - 1));
+                item.set(itemIndex, entry.substring(4, entry.length()));
             }
         }
     }
@@ -79,7 +81,61 @@ public class Enemy {
             this.scriptLoader.getLuaState().pop(1);
         }
     }
-    
+
+    /**
+     * Determine if the player is alive based on hitpoints
+     */
+    public boolean isAlive(){
+        if(hitpoints > 0)
+            return true;
+
+        return false;
+    }
+
+    /**
+     * When the enemy is defeated in battle, award the player
+     * with EXP and roll for any drops to add to the inventory
+     */
+    public void defeated(){
+        System.out.println("Player has defeated the " + name);
+
+        // Check for drops
+        Random generator = new Random();
+        for(ArrayList<String> drop : drops){
+
+            if(generator.nextInt(99) + 1 <= Integer.parseInt(drop.get(2))){
+                String[] itm = new String[2];
+                itm[0] = drop.get(0);
+                itm[1] = drop.get(1);
+
+                SimpleRPG.getPlayer().getInventory().add(itm);
+            }
+        }
+        SimpleRPG.getPlayer().displayInventory();
+
+        // Add experience
+        SimpleRPG.getPlayer().setExperience(
+                SimpleRPG.getPlayer().getExperience() + this.experience);
+
+        System.out.println("Player's Experience: " + SimpleRPG.getPlayer().getExperience());
+
+        scriptLoader.getLuaState().close();
+    }
+
+    /**
+     * Prints out the players current stats to the console
+     */
+    public void displayStats(){
+        System.out.println("========= Enemy Stats =========");
+        System.out.println("Name: " + name);
+        System.out.println("Health: " + hitpoints);
+        System.out.println("Attack: " + attack);
+        System.out.println("Defense: " + defence);
+        System.out.println("Speed: " + speed);
+        System.out.println("Experience: " + experience);
+        System.out.println("================================");
+    }
+
     /**
      * Accessors and Mutators
      */

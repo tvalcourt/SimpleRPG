@@ -1,3 +1,6 @@
+package main;
+
+import entity.enemy.Enemy;
 import entity.player.Player;
 
 import java.util.Scanner;
@@ -8,14 +11,17 @@ import java.util.Scanner;
  */
 public class SimpleRPG {
 
-    static Player player; // character controlled by the player
+    public static Player player; // character controlled by the player
 
     public SimpleRPG(){
         player = new Player(promptHeroName());
     }
 
     public void play() throws InterruptedException {
-        player.displayStats();
+        System.out.println("A Goblin appeared! Initiating Battle.");
+        Enemy goblin = new Enemy("Goblin", "Fiend");
+
+        player.getScriptLoader().runScriptFunction("battle", player, goblin);
     }
 
     public String promptHeroName(){
@@ -27,5 +33,12 @@ public class SimpleRPG {
         scan.close();
 
         return name;
+    }
+
+    /**
+     * @return The instance of the player
+     */
+    public static Player getPlayer(){
+        return player;
     }
 }
