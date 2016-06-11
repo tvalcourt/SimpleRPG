@@ -26,6 +26,14 @@ public class LoadScript {
     }
 
     /**
+     * Returns the current LuaState object
+     * @return This instance of the LuaState object
+     */
+    public LuaState getLuaState(){
+        return this.luaState;
+    }
+
+    /**
      * Call a Lua function inside the Lua script to insert
      * data into a Java object passed as parameter
      * @param functionName Name of Lua function.
