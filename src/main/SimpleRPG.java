@@ -21,6 +21,7 @@ public class SimpleRPG {
         System.out.println("A Goblin appeared! Initiating Battle.");
         Enemy goblin = new Enemy("Goblin", "Fiend");
 
+        // Fight the goblin to the death
         while(goblin.isAlive())
             player.getScriptLoader().runScriptFunction("battle", player, goblin);
     }
