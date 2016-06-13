@@ -10,7 +10,8 @@ import java.util.ArrayList;
  */
 public class Player {
     protected String name;
-    protected int attack, defence, speed, hitpoints, experience;
+    protected int attack, defence, speed, currentHitpoints, experience;
+    protected int maxHitpoints;
     protected ArrayList<String[]> inventory;
     private LoadScript scriptLoader;
 
@@ -35,7 +36,7 @@ public class Player {
      *  Determine if the player is alive based on hitpoints
      */
     public boolean isAlive(){
-        if(hitpoints > 0)
+        if(currentHitpoints > 0)
             return true;
 
         return false;
@@ -47,7 +48,7 @@ public class Player {
     public void displayStats(){
         System.out.println("========= Player Stats =========");
         System.out.println("Name: " + name);
-        System.out.println("Health: " + hitpoints);
+        System.out.println("Health: " + currentHitpoints + "/" + maxHitpoints);
         System.out.println("Attack: " + attack);
         System.out.println("Defense: " + defence);
         System.out.println("Speed: " + speed);
@@ -90,12 +91,14 @@ public class Player {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
-    public int getHitpoints() {
-        return hitpoints;
+    public int getCurrentHitpoints() {
+        return currentHitpoints;
     }
-    public void setHitpoints(int hitpoints) {
-        this.hitpoints = hitpoints;
+    public void setCurrentHitpoints(int hitpoints) {
+        this.currentHitpoints = hitpoints;
     }
+    public int getMaxHitpoints() {return maxHitpoints;}
+    public void setMaxHitpoints(int maxHitpoints) { this.maxHitpoints = maxHitpoints; }
     public int getExperience() {
         return experience;
     }
