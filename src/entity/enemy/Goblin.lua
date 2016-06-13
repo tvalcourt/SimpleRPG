@@ -13,5 +13,5 @@ function create (enemy)
     enemy : setExperience (5)
 end
 
-drops = {{a = "Gold",  b = "5", c = "100"}, {d = "Item", e = "1",  f = "50"}}
+drops = {{a = "Gold",  b = "5", c = "100"}, {d = "Item", e = "1",  f = "5"}}
 

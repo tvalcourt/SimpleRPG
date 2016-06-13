@@ -1,5 +1,6 @@
 function create (obj)
 	obj:setMaxHitpoints (25)
+    obj:setCurrentHitpoints(25)
 	obj:setAttack (15)
 	obj:setDefence (12)
 	obj:setSpeed (14)

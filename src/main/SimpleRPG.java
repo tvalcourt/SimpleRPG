@@ -24,6 +24,10 @@ public class SimpleRPG {
         // Fight the goblin to the death
         while(goblin.isAlive())
             player.getScriptLoader().runScriptFunction("battle", player, goblin);
+
+        Enemy goblin2 = new Enemy("Goblin", "Fiend");
+        while(goblin2.isAlive())
+            player.getScriptLoader().runScriptFunction("battle", player, goblin2);
     }
 
     public String promptHeroName(){

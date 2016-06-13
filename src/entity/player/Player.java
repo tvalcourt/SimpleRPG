@@ -1,8 +1,15 @@
 package entity.player;
 
+import assets.Drop;
+import assets.Item;
+import assets.item.InventoryItem;
+import javafx.fxml.Initializable;
 import util.LoadScript;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Represents the main character in the game who you use to battle with
@@ -10,14 +17,13 @@ import java.util.ArrayList;
  */
 public class Player {
     protected String name;
-    protected int attack, defence, speed, currentHitpoints, experience;
-    protected int maxHitpoints;
-    protected ArrayList<String[]> inventory;
+    protected int attack, defence, speed, maxHitpoints, currentHitpoints, experience;
+    protected HashMap<String, InventoryItem> inventory;
     private LoadScript scriptLoader;
 
     public Player(String name){
         this.name = name;
-        this.inventory = new ArrayList<>();
+        this.inventory = new HashMap<>();
 
         scriptLoader = new LoadScript("src/entity/player/player.lua");
         scriptLoader.runScriptFunction("create", this, 1, 0);
@@ -43,6 +49,19 @@ public class Player {
     }
 
     /**
+     * Adds a new Item to the player's inventory from a monster drop.
+     * Accordingly updates amount if the item already exists
+     */
+    public void addDrop(Drop drop) {
+        if (inventory.containsKey(drop.getItem().getName())) {
+            int oldAmount = inventory.get(drop.getItem().getName()).getAmount();
+            inventory.put(drop.getItem().getName(), new InventoryItem(drop.getItem(), oldAmount + drop.getAmount()));
+        } else {
+            inventory.put(drop.getItem().getName(), new InventoryItem(drop.getItem(), drop.getAmount()));
+        }
+    }
+
+    /**
      * Prints out the players current stats to the console
      */
     public void displayStats(){
@@ -61,11 +80,12 @@ public class Player {
      */
     public void displayInventory(){
         System.out.println("Player's Inventory:");
-        for(String[] item : inventory){
-            for(String entry : item){
-                System.out.print("\t" + entry);
-            }
-            System.out.println("\t");
+        Iterator it = inventory.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            InventoryItem entry = (InventoryItem) pair.getValue(); // convert the key to the actual item to read its name
+
+            System.out.println(pair.getKey() + " : " + entry.getAmount());
         }
     }
 
@@ -105,8 +125,8 @@ public class Player {
     public void setExperience(int experience) {
         this.experience = experience;
     }
-    public ArrayList<String[]> getInventory() {
+    public HashMap<String, InventoryItem> getInventory() {
         return inventory;
     }
-    public void setInventory(ArrayList<String[]> inventory) { this.inventory = inventory; }
+    public void setInventory(HashMap<String, InventoryItem> inventory) { this.inventory = inventory; }
 }

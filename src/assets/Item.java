@@ -6,7 +6,7 @@ import util.LoadScript;
  * Abstract Item class to be used as a mold for all Items
  * Created by Trevor on 6/12/2016.
  */
-public abstract class Item {
+public class Item {
 
     String name, description;
     LoadScript script;

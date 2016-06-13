@@ -1,5 +1,7 @@
 package entity.enemy;
 
+import assets.Drop;
+import assets.Item;
 import main.SimpleRPG;
 import util.LoadScript;
 
@@ -13,7 +15,8 @@ import java.util.Random;
 public class Enemy {
     protected String name, race;
     protected int attack, defence, speed, hitpoints, experience;
-    protected ArrayList<ArrayList<String>> drops;
+    protected ArrayList<ArrayList<String>> unsortedDrops;
+    protected ArrayList<Drop> drops;
     private LoadScript scriptLoader;
 
     /**
@@ -26,6 +29,7 @@ public class Enemy {
         this.name = name;
         this.race = race;
         drops = new ArrayList();
+        unsortedDrops = new ArrayList<>();
 
         this.scriptLoader = new LoadScript("src/entity/enemy/" + name.toLowerCase() + ".lua");
         this.scriptLoader.runScriptFunction("create", this, 1, 0);
@@ -35,17 +39,27 @@ public class Enemy {
 
         /** Load drop table for given script */
         /** Sort the data in each item entry since they are read in a inconsistent order from Lua */
-        buildDropList();
-        for (ArrayList<String> item : drops)
+        readLuaTable();
+        for (ArrayList<String> item : unsortedDrops)
             item.sort((item_1, item_2) -> item_1.compareTo(item_2));
 
         /** Parse each item and remove leading garbage */
-        for(ArrayList<String> item : drops) {
+        for(ArrayList<String> item : unsortedDrops) {
             for (String entry : item){
                 // Entries in format: A = XXXX -> XXXX
                 int itemIndex = item.indexOf(entry);
                 item.set(itemIndex, entry.substring(4, entry.length()));
             }
+        }
+
+        buildDrops();
+    }
+
+    public void buildDrops(){
+        Drop d;
+        for(ArrayList<String> item : unsortedDrops){
+            d = new Drop(new Item(item.get(0)), Integer.parseInt(item.get(1)), Double.parseDouble(item.get(2)));
+            drops.add(d);
         }
     }
 
@@ -54,10 +68,11 @@ public class Enemy {
      * ArrayList contains a Drop: <Item Name> <Amount> <Drop Rate>
      * This list gets added to the enemies drop table
      */
-    public void buildDropList(){
+    public void readLuaTable(){
         ArrayList<String> item = new ArrayList<>();
         String entry = "";
         int count = 0;
+
         this.scriptLoader.getLuaState().pushNil();
 
         while(this.scriptLoader.getLuaState().next(-2) != 0){
@@ -66,7 +81,7 @@ public class Enemy {
             else if(this.scriptLoader.getLuaState().isNumber(-1))
                 entry = this.scriptLoader.getLuaState().toString(-2) + " = " + this.scriptLoader.getLuaState().toNumber(-1);
             else if(this.scriptLoader.getLuaState().isTable(-1))
-                buildDropList();
+                readLuaTable();
 
             if(entry != "") {
                 item.add(entry);
@@ -74,7 +89,7 @@ public class Enemy {
             }
 
             if(count == 3) {
-                drops.add(item);
+                unsortedDrops.add(item);
                 count = 0;
             }
 
@@ -101,14 +116,9 @@ public class Enemy {
 
         // Check for drops
         Random generator = new Random();
-        for(ArrayList<String> drop : drops){
-
-            if(generator.nextInt(99) + 1 <= Integer.parseInt(drop.get(2))){
-                String[] itm = new String[2];
-                itm[0] = drop.get(0);
-                itm[1] = drop.get(1);
-
-                SimpleRPG.getPlayer().getInventory().add(itm);
+        for(Drop drop : drops){
+            if(generator.nextInt(99) + 1 <= drop.getRate()){
+                SimpleRPG.getPlayer().addDrop(drop);
             }
         }
         SimpleRPG.getPlayer().displayInventory();
@@ -171,10 +181,10 @@ public class Enemy {
     public void setExperience(int experience) {
         this.experience = experience;
     }
-    public ArrayList<ArrayList<String>> getDrops() {
+    public ArrayList<Drop> getDrops() {
         return drops;
     }
-    public void setDrops(ArrayList<ArrayList<String>> drops) {
+    public void setDrops(ArrayList<Drop> drops) {
         this.drops = drops;
     }
 }
