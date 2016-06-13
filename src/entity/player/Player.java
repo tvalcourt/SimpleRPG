@@ -31,7 +31,9 @@ public class Player {
         System.out.println("The hero has fallen. Game Over.");
     }
 
-    // Determine if the player is alive based on hitpoints
+    /**
+     *  Determine if the player is alive based on hitpoints
+     */
     public boolean isAlive(){
         if(hitpoints > 0)
             return true;
@@ -52,6 +54,20 @@ public class Player {
         System.out.println("Experience: " + experience);
         System.out.println("================================");
     }
+
+    /**
+     * Prints out the players inventory to the console
+     */
+    public void displayInventory(){
+        System.out.println("Player's Inventory:");
+        for(String[] item : inventory){
+            for(String entry : item){
+                System.out.print("\t" + entry);
+            }
+            System.out.println("\t");
+        }
+    }
+
     /**
      * Accessors and Mutators
      */

@@ -1,3 +1,5 @@
+package main;
+
 /**
  * Driver class for running the Console based RPG game
  * Created by Trevor on 6/11/2016.
