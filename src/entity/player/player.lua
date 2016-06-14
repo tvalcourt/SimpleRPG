@@ -1,3 +1,5 @@
+io.output():setvbuf("no")
+
 function create (obj)
 	obj:setMaxHitpoints (25)
     obj:setCurrentHitpoints(25)

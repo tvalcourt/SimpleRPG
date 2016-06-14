@@ -5,6 +5,8 @@
 -- Time: 9:45 PM
 -- To change this template use File | Settings | File Templates.
 --
+io.output():setvbuf("no")
+
 function use (player)
     p_curHitpoints = player : getCurrentHitpoints()
     p_maxHitpoints = player : getMaxHitpoints()
@@ -21,5 +23,9 @@ function use (player)
     else
         print("Unable to use Potion. Health already at max.")
     end
+end
+
+function init (item)
+    item : setDescription("Restores 10 HP to the player.")
 end
 

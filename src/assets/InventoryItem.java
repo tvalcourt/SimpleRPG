@@ -1,4 +1,4 @@
-package assets.item;
+package assets;
 
 import assets.Item;
 

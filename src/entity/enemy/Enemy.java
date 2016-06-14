@@ -31,7 +31,7 @@ public class Enemy {
         drops = new ArrayList();
         unsortedDrops = new ArrayList<>();
 
-        this.scriptLoader = new LoadScript("src/entity/enemy/" + name.toLowerCase() + ".lua");
+        this.scriptLoader = new LoadScript("src/entity/enemy/" + name + ".lua");
         this.scriptLoader.runScriptFunction("create", this, 1, 0);
 
         // Setup Drop Table
@@ -129,7 +129,7 @@ public class Enemy {
 
         System.out.println("Player's Experience: " + SimpleRPG.getPlayer().getExperience());
 
-        scriptLoader.getLuaState().close();
+        scriptLoader.closeScript();
     }
 
     /**

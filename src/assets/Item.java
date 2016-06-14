@@ -17,7 +17,9 @@ public class Item {
      */
     public Item(String name){
         this.name = name;
-        script = new LoadScript(name + ".lua");
+        this.script = new LoadScript("src/assets/item/" + name + ".lua");
+
+        this.script.runScriptFunction("init", this, 1, 0);
     }
 
     /**

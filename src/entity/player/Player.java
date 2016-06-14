@@ -1,12 +1,9 @@
 package entity.player;
 
 import assets.Drop;
-import assets.Item;
-import assets.item.InventoryItem;
-import javafx.fxml.Initializable;
+import assets.InventoryItem;
 import util.LoadScript;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
