@@ -1,5 +1,8 @@
+io.output():setvbuf("no")
+
 function create (obj)
-	obj:setHitpoints (25)
+	obj:setMaxHitpoints (25)
+    obj:setCurrentHitpoints(25)
 	obj:setAttack (15)
 	obj:setDefence (12)
 	obj:setSpeed (14)
@@ -34,11 +37,11 @@ function battle (player, enemy)
         if(enemy : isAlive()) then
             print(e_name, " has ", enemy : getHitpoints(), " hitpoints remaining!")
             print(e_name, " attacks for ", damageCheck(e_attack, p_defence), " damage!")
-            calc = player : getHitpoints() - damageCheck(e_attack, p_defence)
-            player : setHitpoints(calc)
+            calc = player : getCurrentHitpoints() - damageCheck(e_attack, p_defence)
+            player : setCurrentHitpoints(calc)
 
             if(player : isAlive()) then
-                print(p_name, " has ", player:getHitpoints(), " hitpoints remaining!")
+                print(p_name, " has ", player:getCurrentHitpoints(), " hitpoints remaining!")
             else
                 player : defeated()
             end
