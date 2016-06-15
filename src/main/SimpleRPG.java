@@ -33,6 +33,9 @@ public class SimpleRPG {
         System.out.println();
 
         Quest intro = new Quest("Introduction");
+        player.addQuest(intro);
+
+        player.displayQuestJournal();
     }
 
     public String promptHeroName(){

@@ -4,9 +4,7 @@ import assets.item.InventoryItem;
 import assets.item.Item;
 import util.LoadScript;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Created by Trevor on 6/13/2016.

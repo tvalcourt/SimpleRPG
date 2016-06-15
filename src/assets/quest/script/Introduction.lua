@@ -9,9 +9,7 @@
 item_rewards = {{a = "Gold", b = "50"}}
 
 function init (quest)
-    quest : setActive(false)
-    quest : setAvailable(false)
-    quest : setCompleted(false)
+    quest : setLuaStatus("available")
     quest : setExperienceReward(100)
 end
 

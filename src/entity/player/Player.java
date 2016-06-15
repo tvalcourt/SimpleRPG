@@ -2,8 +2,10 @@ package entity.player;
 
 import assets.item.Drop;
 import assets.item.InventoryItem;
+import assets.quest.Quest;
 import util.LoadScript;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,11 +18,13 @@ public class Player {
     protected String name;
     protected int attack, defence, speed, maxHitpoints, currentHitpoints, experience;
     protected HashMap<String, InventoryItem> inventory;
+    protected ArrayList<Quest> questJournal;
     private LoadScript scriptLoader;
 
     public Player(String name){
         this.name = name;
         this.inventory = new HashMap<>();
+        this.questJournal = new ArrayList<>();
 
         scriptLoader = new LoadScript("src/entity/player/player.lua");
         scriptLoader.runScriptFunction("create", this, 1, 0);
@@ -59,6 +63,16 @@ public class Player {
     }
 
     /**
+     * Adds a new quest to the player's journal and updates the quest information
+     * to be in progress
+     * @param quest The quest accepted by the player
+     */
+    public void addQuest(Quest quest){
+        quest.setStatus(Quest.QuestStatus.ACTIVE);
+        questJournal.add(quest);
+    }
+
+    /**
      * Prints out the players current stats to the console
      */
     public void displayStats(){
@@ -83,6 +97,16 @@ public class Player {
             InventoryItem entry = (InventoryItem) pair.getValue(); // convert the key to the actual item to read its name
 
             System.out.println(pair.getKey() + " : " + entry.getAmount());
+        }
+    }
+
+    /**
+     * Prints out the contents of the quest journal
+     */
+    public void displayQuestJournal(){
+        System.out.println("Quest Journal:");
+        for(Quest q : questJournal){
+            System.out.println("Quest: " + q.getName() + "\tStatus: " + q.getStatus());
         }
     }
 
@@ -125,5 +149,6 @@ public class Player {
     public HashMap<String, InventoryItem> getInventory() {
         return inventory;
     }
+    public ArrayList<Quest> getQuestJournal() { return questJournal; }
     public void setInventory(HashMap<String, InventoryItem> inventory) { this.inventory = inventory; }
 }

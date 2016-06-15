@@ -13,19 +13,10 @@ import java.util.ArrayList;
  */
 public class Quest {
 
-    /**
-     * Players journal:
-     * > Active Quests
-     * > Completed Quests
-     *
-     * Quests should know if:
-     *  > They are available
-     *  > They are active
-     *  > They are completed
-     * @param name
-     */
+    public static enum QuestStatus {UNAVAILABLE, AVAILABLE, ACTIVE, COMPLETED}; // represents states of the quest
 
-    protected boolean available, active, completed;
+    protected String name;
+    protected QuestStatus status;
     private ArrayList<InventoryItem> itemReward;
     protected int experienceReward;
     private LoadScript scriptLoader;
@@ -36,8 +27,9 @@ public class Quest {
      */
     public Quest(String name){
         itemReward = new ArrayList<>();
+        this.name = name;
 
-        System.out.println(name);
+        // Load the quest script
         scriptLoader = new LoadScript("src/assets/quest/script/" + name + ".lua"); // no whitespace
         scriptLoader.runScriptFunction("init", this, 1, 0);
 
@@ -53,23 +45,35 @@ public class Quest {
     }
 
     /** Accessors and Mutators */
-    public boolean isAvailable() {
-        return available;
+    public String getStatus(){
+        switch(status) {
+            case UNAVAILABLE:
+                return "Unavailable";
+            case AVAILABLE:
+                return "Available";
+            case ACTIVE:
+                return "Active";
+            case COMPLETED:
+                return "Completed";
+        }
+        return "Unknown status";
     }
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setStatus(QuestStatus status){
+        this.status = status;
     }
-    public boolean isActive() {
-        return active;
+    public void setLuaStatus(String status){
+        switch(status) {
+            case "unavailable":
+                this.status = QuestStatus.UNAVAILABLE;
+                break;
+
+            default:
+                this.status = QuestStatus.AVAILABLE;
+                break;
+        }
     }
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-    public boolean isCompleted() {
-        return completed;
-    }
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public String getName(){
+        return this.name;
     }
     public int getExperienceReward() {
         return experienceReward;
