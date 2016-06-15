@@ -1,6 +1,6 @@
-package assets;
+package assets.item;
 
-import assets.Item;
+import assets.item.Item;
 
 /**
  * Created by Trevor on 6/12/2016.

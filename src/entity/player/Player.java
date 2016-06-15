@@ -1,7 +1,7 @@
 package entity.player;
 
-import assets.Drop;
-import assets.InventoryItem;
+import assets.item.Drop;
+import assets.item.InventoryItem;
 import util.LoadScript;
 
 import java.util.HashMap;

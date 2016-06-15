@@ -1,4 +1,4 @@
-package assets;
+package assets.item;
 
 import util.LoadScript;
 
@@ -17,7 +17,7 @@ public class Item {
      */
     public Item(String name){
         this.name = name;
-        this.script = new LoadScript("src/assets/item/" + name + ".lua");
+        this.script = new LoadScript("src/assets/item/script/" + name + ".lua");
 
         this.script.runScriptFunction("init", this, 1, 0);
     }
@@ -34,6 +34,7 @@ public class Item {
     public String getName(){
         return this.name;
     }
+    public void setName(String name) { this.name = name;}
     public String getDescription(){
         return this.description;
     }

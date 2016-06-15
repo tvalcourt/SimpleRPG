@@ -1,7 +1,8 @@
 package entity.enemy;
 
-import assets.Drop;
-import assets.Item;
+import assets.Library;
+import assets.item.Drop;
+import assets.item.Item;
 import main.SimpleRPG;
 import util.LoadScript;
 
@@ -39,22 +40,15 @@ public class Enemy {
 
         /** Load drop table for given script */
         /** Sort the data in each item entry since they are read in a inconsistent order from Lua */
-        readLuaTable();
-        for (ArrayList<String> item : unsortedDrops)
-            item.sort((item_1, item_2) -> item_1.compareTo(item_2));
-
-        /** Parse each item and remove leading garbage */
-        for(ArrayList<String> item : unsortedDrops) {
-            for (String entry : item){
-                // Entries in format: A = XXXX -> XXXX
-                int itemIndex = item.indexOf(entry);
-                item.set(itemIndex, entry.substring(4, entry.length()));
-            }
-        }
+        Library.readLuaTable(this.scriptLoader, 3, unsortedDrops, true, "");
+        Library.sortAndStripNestedArray(unsortedDrops);
 
         buildDrops();
     }
 
+    /**
+     * Builds a list of drops from the now sorted drop list to be placed in the player's inventory
+     */
     public void buildDrops(){
         Drop d;
         for(ArrayList<String> item : unsortedDrops){

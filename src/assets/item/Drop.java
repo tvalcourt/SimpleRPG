@@ -1,4 +1,6 @@
-package assets;
+package assets.item;
+
+import assets.item.Item;
 
 /**
  * Represents a Drop table entry for a given item

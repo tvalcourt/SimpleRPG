@@ -1,5 +1,6 @@
 package main;
 
+import assets.quest.Quest;
 import entity.enemy.Enemy;
 import entity.player.Player;
 
@@ -28,6 +29,10 @@ public class SimpleRPG {
         Enemy goblin2 = new Enemy("Goblin", "Fiend");
         while(goblin2.isAlive())
             player.getScriptLoader().runScriptFunction("battle", player, goblin2);
+
+        System.out.println();
+
+        Quest intro = new Quest("Introduction");
     }
 
     public String promptHeroName(){
